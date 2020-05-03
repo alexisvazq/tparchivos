@@ -69,13 +69,13 @@ int main(){
                     }
                 }
             case 2:
-                //editar_platos();
+
             break;
             case 3:
-                //listar_platos_x_id();
+
             break;
             case 4:
-                //listar_platos();
+
             break;
             case 0:
                 return 0;

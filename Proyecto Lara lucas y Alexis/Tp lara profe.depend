@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1588539823 source:c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\main.cpp
+	<iostream>
+	<cstdio>
+	<cstring>
+	<cstdlib>
+	<cmath>
+	"rlutil.h"
+	"producto.h"
+
+1588539196 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\rlutil.h
+	<iostream>
+	<string>
+	<cstdio>
+	<stdio.h>
+	<string.h>
+	<windows.h>
+	<conio.h>
+	<termios.h>
+	<unistd.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/time.h>
+
+1588539823 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\producto.h
+

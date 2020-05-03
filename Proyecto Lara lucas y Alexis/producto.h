@@ -513,7 +513,7 @@ void nuevo_platos(){
         cout<<"El plato no pudo ser cargado."<<endl;
         anykey();
     }
-    //otro cls
+
 }
 
 #endif // PRODUCTO_H_INCLUDED
