@@ -2,11 +2,11 @@
 #define PRODUCTO_H_INCLUDED
 
 struct platos{
-  int id;
-  char nombre[50];
-  float costopre, valorventa;
-  int stock, tiemprepa, idresto, comiresto, idcat;
-  bool estado;
+    int id;
+    char nombre[50];
+    float costopre, valorventa;
+    int stock, tiemprepa, idresto, comiresto, idcat;
+    bool estado;
 };
 
 const char *PATH_PLATOS = "datos/platos.dat";
@@ -28,6 +28,7 @@ platos leer_platos(int pos){
     p = fopen(PATH_PLATOS, "rb");
     fseek(p, pos * sizeof(platos), SEEK_SET);
     fread(&reg, sizeof(platos), 1, p);
+    fclose(p);
     return reg;
 }
 
@@ -72,8 +73,7 @@ bool guardar_platos(platos reg, int pos){
             return false;
         }
         fseek(p, pos * sizeof(platos), SEEK_SET);
-    }
-    else{
+    }else{
         p = fopen(PATH_PLATOS, "ab");
         if (p == NULL){
             return false;
@@ -87,86 +87,227 @@ bool guardar_platos(platos reg, int pos){
 /// Funciones de interfaz
 
 bool cargar_platos(platos *p, int codigo = 0){
-  int i;
-   if (codigo != 0){
-    cout << codigo<<endl;
-  }
-  else{
-    cout << "ID"<<endl;
+
+    if (codigo != 0){
+        cout << codigo<<endl;
+    }else{
+        cout<<"Ingrese el ID unico del plato"<<endl;
+        cout<<"ID: ";
         cin >> p->id;
-            if (buscar_platos(p->id) >= 0){
-                cout <<"Código de producto repetido"<<endl;
-        return false;
+        cin.ignore();
+        cout<<endl;
+        while(cin.fail() || buscar_platos(p->id) >= 0){
+
+            if(cin.fail()){
+                cout<<"El ID no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+                cin.clear();
+                cin.ignore(256,'\n');
+                cout<<endl;
+                cout<<"ID: ";
+                cin >> p->id;
+                cin.ignore();
+                cout<<endl;
+            }else{
+                cout<<"El ID ingresado ya existe. Intente con otro"<<endl;
+                cout<<endl;
+                cout<<"ID: ";
+                cin >> p->id;
+                cin.ignore();
+                cout<<endl;
+            }
+        }
     }
-    cin.ignore();
-  }
-    cout << "NOMBRE"<<endl;
+
+    cout<<"Ingrese el nombre del plato"<<endl;
+    cout<<"NOMBRE: ";
+    cin.getline(p->nombre, 30);
+    cout<<endl;
+    while(p->nombre[0] == '\0'){
+        cout<<"Este campo no puede quedar vacio, indique el nombre del plato"<<endl;
+        cout<<endl;
+        cout<<"NOMBRE: ";
         cin.getline(p->nombre, 30);
+        cout<<endl;
+    }
 
-    cout << "COSTO DE PREPARACION"<<endl;
-        cin >> p->costopre;
-            if (p->costopre < 0){
-        return false;
-  }
-    cout << "VALOR DE VENTA"<<endl;
-        cin >> p->valorventa;
-            if (p->valorventa < p->costopre){
-    return false;
-  }
-    cout << "TIEMPO DE PREPARACION"<<endl;
-        cin >> p->tiemprepa;
-            if (p->tiemprepa < 0){
-    return false;
-  }
-    cout << "ID DEL RESTAURANTE"<<endl;
-        cin >> p->idresto;
-            if (p->idresto < 0){
-    return false;
-  }
-    cout << "COMISION RESTAURANTE"<<endl;
-        cin >> p->comiresto;
-            if (0 < p->comiresto < 100 == FALSE )
-        {
-    return false;
-  }
-    cout << "ID CATEGORIA"<<endl;
-        cin >> p->idcat;
-            if (p->idcat < 0){
-    return false;
-  }
+    cout<<"Ingrese el costo de preparacion del plato"<<endl;
+    cout<<"COSTO DE PREPARACION: ";
+    cin >> p->costopre;
+    cin.ignore();
+    cout<<endl;
+    while(cin.fail() || p->costopre < 0){
+        if(cin.fail()){
+            cout<<"El costo de preparacion no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<endl;
+            cout<<"COSTO DE PREPARACION: ";
+            cin >> p->costopre;
+            cin.ignore();
+            cout<<endl;
+        }else{
+            cout<<"El coste de preparacion no puede ser negativo. Ingrese el coste de preparacion"<<endl;
+            cout<<endl;
+            cout<<"COSTO DE PREPARACION: ";
+            cin >> p->costopre;
+            cin.ignore();
+            cout<<endl;
+        }
+    }
 
-//   cout << "ESTADO"<<endl;
-return true;
+    cout<<"Ingrese el valor de venta del plato"<<endl;
+    cout<<"VALOR DE VENTA: ";
+    cin >> p->valorventa;
+    cin.ignore();
+    cout<<endl;
+    while(cin.fail() || p->valorventa < p->costopre){
+        if(cin.fail()){
+            cout<<"El valor de venta no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<endl;
+            cout<<"VALOR DE VENTA: ";
+            cin >> p->valorventa;
+            cin.ignore();
+            cout<<endl;
+        }else{
+            cout<<"El valor de venta no puede ser menor al coste de preparacion. Ingrese el valor de venta"<<endl;
+            cout<<endl;
+            cout<<"VALOR DE VENTA: ";
+            cin >> p->valorventa;
+            cin.ignore();
+            cout<<endl;
+        }
+    }
+
+    cout<<"Ingrese los minutos a demorar en la preparacion del plato"<<endl;
+    cout<<"TIEMPO DE PREPARACION: ";
+    cin >> p->tiemprepa;
+    cin.ignore();
+    cout<<endl;
+    while(cin.fail() || p->tiemprepa < 0){
+        if(cin.fail()){
+            cout<<"El tiempo de preparacion no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<endl;
+            cout<<"TIEMPO DE PREPARACION: ";
+            cin >> p->tiemprepa;
+            cin.ignore();
+            cout<<endl;
+        }else{
+            cout<<"El tiempo de demora debe ser positivo, por favor ingrese el tiempo de preparacion"<<endl;
+            cout<<endl;
+            cout<<"TIEMPO DE PREPARACION: ";
+            cin >> p->tiemprepa;
+            cin.ignore();
+            cout<<endl;
+        }
+    }
+
+    cout<<"Ingrese el ID del restaurante para el plato"<<endl;
+    cout<<"ID DEL RESTAURANTE: ";
+    cin >> p->idresto;
+    cin.ignore();
+    cout<<endl;
+    while(cin.fail() || p->idresto < 0){
+        if(cin.fail()){
+            cout<<"El id del restaurante no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<endl;
+            cout<<"ID DEL RESTAURANTE: ";
+            cin >> p->idresto;
+            cin.ignore();
+            cout<<endl;
+        }else{
+            cout<<"El ID del restaurante debe ser positivo, por favor ingrese el ID del restaurante"<<endl;
+            cout<<endl;
+            cout<<"ID DEL RESTAURANTE: ";
+            cin >> p->idresto;
+            cin.ignore();
+            cout<<endl;
+        }
+    }
+
+    cout<<"Ingrese el porcentaje de comision del restaurante"<<endl;
+    cout<<"COMISION RESTAURANTE: ";
+    cin >> p->comiresto;
+    cin.ignore();
+    cout<<endl;
+    while(cin.fail() || p->comiresto < 0 || p->comiresto > 100){
+        if(cin.fail()){
+            cout<<"La comision del restaurante no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<endl;
+            cout<<"COMISION RESTAURANTE: ";
+            cin >> p->comiresto;
+            cin.ignore();
+            cout<<endl;
+        }else{
+            cout<<"La comision del restaurante debe ser mayor a 0 y menor a 100. Intente nuevamente"<<endl;
+            cout<<endl;
+            cout<<"COMISION RESTAURANTE: ";
+            cin >> p->comiresto;
+            cin.ignore();
+            cout<<endl;
+        }
+    }
+
+    cout<<"Ingrese el ID de la categoria a la que pertenece el plato"<<endl;
+    cout<<"ID CATEGORIA: ";
+    cin >> p->idcat;
+    cin.ignore();
+    cout<<endl;
+    while(cin.fail() || p->idcat < 0){
+        if(cin.fail()){
+            cout<<"El ID de la categoria no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<endl;
+            cout<<"ID CATEGORIA: ";
+            cin >> p->idcat;
+            cin.ignore();
+            cout<<endl;
+        }else{
+            cout<<"El ID de la categoria del plato debe ser positivo. Por favor intente nuevamente"<<endl;
+            cout<<endl;
+            cout<<"ID CATEGORIA: ";
+            cin >> p->idcat;
+            cin.ignore();
+            cout<<endl;
+        }
+    }
+    p->estado = true;
+    return true;
 }
 
 void listar_platos(platos reg){
     int i;
 
-
     cout<<"El ID del plato es: "<< reg.id<<endl;
-
 
     cout<<"Nombre del plato: " << reg.nombre<<endl;
 
-
-    cout<<"Costo de la preparación: $" << reg.costopre<<endl;
-
+    cout<<"Costo de la preparacion: $" << reg.costopre<<endl;
 
     cout<<"Valor de la venta: $"  << reg.valorventa<<endl;
 
-
     cout<<"Tiempo de preparacion: " << reg.tiemprepa<<" min"<<endl;
-
 
     cout<<"ID del restaurante: " << reg.idresto<<endl;
 
-
-    cout<<"Comisión del restaurante: " << reg.comiresto<<"%"<<endl;
-
+    cout<<"Comision del restaurante: " << reg.comiresto<<"%"<<endl;
 
     cout<<"ID de la categoria del plato: " << reg.idcat<<endl;
 
-
+    cout<<"Estado del plato: ";
+    if( reg.estado ){
+        cout<<"activo"<<endl;
+    }else{
+        cout<<"inactivo"<<endl;
+    }
 }
 
 void listar_todos_platos(){
@@ -177,10 +318,40 @@ void listar_todos_platos(){
     for(i=0; i<cant; i++){
         reg = leer_platos(i);
         listar_platos(reg);
-           cout<<endl<<"Presiona una tecla para avanzar de registro o finalizar."<<endl<<endl;
+        cout<<endl<<"Presiona una tecla para avanzar de registro o finalizar."<<endl<<endl;
         anykey();
     }
+}
 
+void eliminar_plato(){
+    int codigoBuscado, pos;
+    platos reg;
+
+    cout << "Ingrese el ID del plato a eliminar"<<endl;
+    cout << "ID: ";
+
+    cin >> codigoBuscado;
+    if(cin.fail()){
+        cout<<"El ID del plato no contiene un formato valido (solo numeros)"<<endl;
+        cin.clear();
+        cin.ignore(256,'\n');
+    }else{
+        pos = buscar_platos(codigoBuscado);
+        if (pos >= 0){
+            reg = leer_platos(pos);
+            reg.estado = false;
+            listar_platos(reg);
+
+            if (guardar_platos(reg, pos) == true){
+                cout<<"Producto eliminado correctamente"<<endl;
+            }else{
+                cout<<"No se pudo eliminar el producto"<<endl;
+            }
+        }else{
+            cout<<"El plato a eliminar no existe."<<endl;
+        }
+    }
+    anykey();
 }
 
 
@@ -188,90 +359,144 @@ void editar_platos(){
     int codigoBuscado, pos;
     platos reg;
 
-    cout << "ID"<<endl;
+    cout << "Ingrese el ID del plato a modificar"<<endl;
+    cout << "ID: ";
 
     cin >> codigoBuscado;
-
-    pos = buscar_platos(codigoBuscado);
-    if (pos >= 0){
-        reg = leer_platos(pos);
-        listar_platos(reg);
-
-        cout<<"Ingrese el nuevo costo de venta"<<endl;
-        cin >> reg.valorventa;
+    if(cin.fail()){
+        cout<<"El ID del plato no contiene un formato valido (solo numeros)"<<endl;
+        cin.clear();
+        cin.ignore(256,'\n');
         cin.ignore();
-        cout<<"Ingrese el nuevo tiempo de preparación"<<endl;
-        cin >> reg.tiemprepa;
-        cin.ignore();
+    }else{
+        pos = buscar_platos(codigoBuscado);
+        if (pos >= 0){
+            reg = leer_platos(pos);
+            listar_platos(reg);
+
+            cout<<endl;
+            cout<<"Ingrese el nuevo costo de venta"<<endl;
+            cout<<"VALOR DE VENTA: ";
+            cin >> reg.valorventa;
+            cin.ignore();
+            cout<<endl;
+            while(cin.fail() || reg.valorventa < reg.costopre){
+                if(cin.fail()){
+                    cout<<"El valor de venta no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+                    cin.clear();
+                    cin.ignore(256,'\n');
+                    cout<<endl;
+                    cout<<"VALOR DE VENTA: ";
+                    cin >> reg.valorventa;
+                    cin.ignore();
+                    cout<<endl;
+                }else{
+                    cout<<"El valor de venta no puede ser menor al coste de preparacion. Ingrese el valor de venta"<<endl;
+                    cout<<endl;
+                    cout<<"VALOR DE VENTA: ";
+                    cin >> reg.valorventa;
+                    cin.ignore();
+                    cout<<endl;
+                }
+            }
+
+            cout<<"Ingrese los nuevos minutos a demorar en la preparacion del plato"<<endl;
+            cout<<"TIEMPO DE PREPARACION: ";
+            cin >> reg.tiemprepa;
+            cin.ignore();
+            cout<<endl;
+            while(cin.fail() || reg.tiemprepa < 0){
+                if(cin.fail()){
+                    cout<<"El tiempo de preparacion no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+                    cin.clear();
+                    cin.ignore(256,'\n');
+                    cout<<endl;
+                    cout<<"TIEMPO DE PREPARACION: ";
+                    cin >> reg.tiemprepa;
+                    cin.ignore();
+                    cout<<endl;
+                }else{
+                    cout<<"El tiempo de demora debe ser positivo, por favor ingrese el tiempo de preparacion"<<endl;
+                    cout<<endl;
+                    cout<<"TIEMPO DE PREPARACION: ";
+                    cin >> reg.tiemprepa;
+                    cin.ignore();
+                    cout<<endl;
+                }
+            }
 
             if (guardar_platos(reg, pos) == true){
                 cout<<"Producto editado correctamente"<<endl;
-            }
-            else{
+            }else{
                 cout<<"No se pudo editar el producto correctamente"<<endl;
             }
-        cin.ignore();
-        anykey();
+            anykey();
+        }else{
+            cout<<"El producto buscado no existe."<<endl;
+        }
     }
-    else{
-        cout<<"El producto buscado no existe."<<endl;
-    }
-
 }
 
 void listar_platos_x_id(){
     int codigoBuscado, pos;
     platos reg;
 
-        cout << "ID del plato buscado"<<endl;
+    cout << "Ingrese el ID del plato a buscar"<<endl;
+    cout << "ID: ";
 
-       cin >> codigoBuscado;
+    cin >> codigoBuscado;
 
-    pos = buscar_platos(codigoBuscado);
-    if (pos >= 0){
-        reg = leer_platos(pos);
-        listar_platos(reg);
+    if(cin.fail()){
+        cout<<"El ID del plato no contiene un formato valido (solo numeros)"<<endl;
+        cin.clear();
+        cin.ignore(256,'\n');
         cin.ignore();
-        anykey();
+    }else{
+        pos = buscar_platos(codigoBuscado);
+        if (pos >= 0){
+            reg = leer_platos(pos);
+            listar_platos(reg);
+            cin.ignore();
+            anykey();
+        }else{
+            cout<<"El plato buscado no existe."<<endl;
+            cin.ignore();
+            anykey();
+        }
     }
-    else{
-        cout<<"El plato buscado no existe."<<endl;
-       cin.ignore();
-        anykey();
-    }
-
 }
 
 void listar_platos_x_idresto(){
     int codigoBuscado, pos;
     platos reg;
 
-        cout << "ID del Restaurante"<<endl;
+    cout << "Ingrese el ID del Restaurante a buscar"<<endl;
+    cout << "ID Restaurante: ";
 
-       cin >> codigoBuscado;
+    cin >> codigoBuscado;
+    cout <<endl;
 
-       cout<<"Platos del restaurante con el ID: "<<codigoBuscado<<endl;
+    if(cin.fail()){
+        cout<<"El ID del restaurante no contiene un formato valido (solo numeros)"<<endl;
+        cin.clear();
+        cin.ignore(256,'\n');
+        cin.ignore();
+    }else{
+        cout<<"Platos del restaurante con el ID "<<codigoBuscado<<":"<<endl;
 
         int i=0, cant;
         cant = contar_platos();
-            for(i=0; i<cant; i++){
+        for(i=0; i<cant; i++){
 
-             reg = leer_platos(i);
- if (reg.idresto == codigoBuscado)
-        {
-         cout<<reg.nombre<<endl;
-         }
-                  }
-
-//            return pos;
-
-          cin.ignore();
+            reg = leer_platos(i);
+            if (reg.idresto == codigoBuscado){
+                cout<<reg.nombre<<endl;
+            }
+        }
+        cin.ignore();
 
         anykey();
-     //   else{
-   //     cout<<"El ID del restaurante no existe"<<endl;
-  //  }
-
+    }
 }
 
 void nuevo_platos(){
@@ -280,16 +505,13 @@ void nuevo_platos(){
         if (guardar_platos(reg, -1) == true){
             cout<<"El plato se guardo correctamente."<<endl;
             anykey();
-        }
-        else{
+        }else{
             cout<<"El plato no se pudo guardar correctamente"<<endl;
             anykey();
         }
-    }
-    else{
+    }else{
         cout<<"El plato no pudo ser cargado."<<endl;
         anykey();
-
     }
     //otro cls
 }
