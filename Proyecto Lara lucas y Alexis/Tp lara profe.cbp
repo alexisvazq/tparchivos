@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="clientes.h" />
 		<Unit filename="funciones.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="producto.h" />

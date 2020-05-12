@@ -4,10 +4,12 @@ using namespace std;
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
+#include <ctime>
 #include "rlutil.h"
 using namespace rlutil;
 //#include "inc/funciones.h"
 #include "producto.h"
+#include "clientes.h"
 
 int main(){
     int opt;
@@ -67,10 +69,47 @@ int main(){
                             return 0;
                         break;
                     }
-                }
-            case 2:
 
-            break;
+                };
+                break;
+            case 2:
+                     int opt3;
+                while(true){
+                    system("cls");
+                    cout<<"-------MENU CLIENTES-----------"<<endl;
+                    cout<<"--------------------**---------"<<endl;
+                    cout<<"     1) NUEVO CLIENTE"<<endl;
+                    cout<<"     2) MODIFICAR CLIENTE"<<endl;
+                    cout<<"     3) LISTAR CLIENTE POR ID"<<endl;
+                    cout<<"     4) LISTAR TODOS LOS CLIENTES"<<endl;
+                    cout<<"     5) ELIMINAR CLIENTE"<<endl;
+                    cout<<"     0) VOLVER AL MENU PRINCIPAL"<<endl;
+                    cout<<"-----SELECCIONE UNA OPCION-----"<<endl;
+                    cin>>opt3;
+                    system("cls");
+
+                    switch(opt3){
+                        case 1:
+                            nuevo_clientes();
+                        break;
+                        case 2:
+                            editar_clientes();
+                        break;
+                        case 3:
+                            listar_clientes_x_id();
+                        break;
+                        case 4:
+                            listar_todos_clientes();
+                        break;
+                        case 5:
+                            eliminar_cliente();
+                        break;
+
+                        case 0:
+                            return 0;
+                break;
+                    };
+                    break;
             case 3:
 
             break;
@@ -80,7 +119,9 @@ int main(){
             case 0:
                 return 0;
             break;
-        }
+            }
+
     }
     return 0;
+}
 }

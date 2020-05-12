@@ -1,12 +1,14 @@
 # depslib dependency file v1.0
-1588539823 source:c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\main.cpp
+1589305147 source:c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\main.cpp
 	<iostream>
 	<cstdio>
 	<cstring>
 	<cstdlib>
 	<cmath>
+	<ctime>
 	"rlutil.h"
 	"producto.h"
+	"clientes.h"
 
 1588539196 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\rlutil.h
 	<iostream>
@@ -22,5 +24,7 @@
 	<sys/types.h>
 	<sys/time.h>
 
-1588539823 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\producto.h
+1589062573 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\producto.h
+
+1589306990 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\clientes.h
 
