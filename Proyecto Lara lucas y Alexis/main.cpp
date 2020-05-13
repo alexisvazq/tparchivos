@@ -77,7 +77,7 @@ int main(){
                 while(true){
                     system("cls");
                     cout<<"-------MENU CLIENTES-----------"<<endl;
-                    cout<<"--------------------**---------"<<endl;
+                    cout<<"-------------------------------"<<endl;
                     cout<<"     1) NUEVO CLIENTE"<<endl;
                     cout<<"     2) MODIFICAR CLIENTE"<<endl;
                     cout<<"     3) LISTAR CLIENTE POR ID"<<endl;
@@ -107,9 +107,12 @@ int main(){
 
                         case 0:
                             return 0;
+                            break;
+                    }
+                     };
                 break;
-                    };
-                    break;
+
+
             case 3:
 
             break;
@@ -124,4 +127,4 @@ int main(){
     }
     return 0;
 }
-}
+

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1589305147 source:c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\main.cpp
+1589379393 source:c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\main.cpp
 	<iostream>
 	<cstdio>
 	<cstring>
@@ -26,5 +26,5 @@
 
 1589062573 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\producto.h
 
-1589306990 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\clientes.h
+1589379675 c:\users\guti\documents\github\tparchivos\proyecto lara lucas y alexis\clientes.h
 

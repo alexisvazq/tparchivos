@@ -105,6 +105,8 @@ return false ;
 if(strchr(mail,'@') == NULL) {
 return false;
 }
+
+
 return true;
 
 }
@@ -118,8 +120,11 @@ bool fecha_valida(fecha fecha_nacimiento){
     if(fecha_nacimiento.mes < 1 || fecha_nacimiento.mes > 12){
         return false;
     }
-    int m = m-1;
+    int m = fecha_nacimiento.mes-1;
     if(fecha_nacimiento.dia < 1 || fecha_nacimiento.dia > dias_mes[m]){
+        return false;
+    }
+    if(1900>fecha_nacimiento.anio||fecha_nacimiento.anio>2020){
         return false;
     }
     return true;
@@ -208,17 +213,20 @@ cout<<"Ingrese domicilio del cliente"<<endl;
     }
 
     cout<<"Ingrese la fecha de nacimiento del cliente"<<endl;
-    cout<<"FECHA DE NACIMIENTO: ";
+    cout<<"FECHA DE NACIMIENTO: "<<endl;
     cout<<"DIA :"<<endl;
     cin >> p->fecha_nacimiento.dia;
+    cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.dia<<endl;
     cout<<"MES :"<<endl;
     cin >> p->fecha_nacimiento.mes;
+     cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.mes<<endl;
     cout<<"AÑO :"<<endl;
     cin >> p->fecha_nacimiento.anio;
-    cin.ignore();
-    cout<<endl;
+     cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.anio<<endl;
+         cin.ignore();
 
-    while(cin.fail() || (fecha_valida(p->fecha_nacimiento) == false)) {
+
+    while(fecha_valida(p->fecha_nacimiento) == false) {
         cout<<"FECHA DE NACIMIENTO INCORRECTA, VUELVA A INTENTARLO: "<<endl;
         cout<<"FECHA DE NACIMIENTO: ";
         cout<<"DIA :"<<endl;
@@ -229,9 +237,12 @@ cout<<"Ingrese domicilio del cliente"<<endl;
         cin >> p->fecha_nacimiento.anio;
             cin.ignore();
             cout<<endl;
+
         }
 
+
     p->estado = true;
+
     return true;
 }
 
@@ -379,7 +390,7 @@ void listar_clientes_x_id(){
 void nuevo_clientes(){
     clientes reg;
     if (cargar_clientes(&reg) == true){
-        if (guardar_clientes(reg, -1) == true){
+                    if (guardar_clientes(reg, -1) == true){
             cout<<"El cliente se guardo correctamente."<<endl;
             anykey();
         }else{
