@@ -35,6 +35,9 @@
 		<Unit filename="clientes.h" />
 		<Unit filename="funciones.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="pedidos.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="producto.h" />
 		<Unit filename="rlutil.h" />
 		<Extensions>
