@@ -96,20 +96,63 @@ bool guardar_clientes(clientes reg, int pos){
 /// Funciones de interfaz
 
 bool mail_valido(const char *mail) {
-int tam = strlen(mail);
-//no puede comenzar con @ o .
-if (mail[0] == '@' || mail [0] == '.' || mail[tam-1] == '@') {
-return false ;
-}
-//
-if(strchr(mail,'@') == NULL) {
-return false;
+    int tam = strlen(mail);
+    bool puntoTrasArroba = false;
+
+    //No puede comenzar ni terminar con arroba o punto
+    if (mail[0] == '@' || mail [0] == '.' || mail[tam-1] == '@' || mail[tam-1] == '.') {
+        return false ;
+    }
+
+    char * posPrimerArroba = strchr(mail,'@');
+    char * posUltimoArroba = strrchr(mail,'@');
+    // Debe contener un arroba
+    if(posPrimerArroba == NULL) {
+        return false;
+    }
+    // No puede contener mas de un arroba
+    if(posPrimerArroba != posUltimoArroba){
+        return false;
+    }
+
+    for (int i = 0; i < tam; i++){
+        bool puntoSeguido = false;
+        bool charTrasArroba = false;
+
+        // Me fijo si es alfanumerico o punto o guion
+        if( !isalnum(mail[i]) && mail[i] != '.' && mail[i] != '-' && mail[i] != '@' ){
+            return false;
+        }
+        // Debe contener al menos un punto luego del arroba
+        if( mail[i] == '@' ){
+            charTrasArroba = true;
+        }
+        if( charTrasArroba && mail[i] == '.' ){
+            puntoTrasArroba = true;
+        }
+        // No puede contener dos puntos seguidos
+        if( mail[i] == '.' ){
+            if( puntoSeguido ){
+                return false;
+            }else{
+                puntoSeguido = true;
+            }
+        }else{
+            puntoSeguido = false;
+        }
+    }
+
+    if(!puntoTrasArroba){
+        return false;
+    }
+
+    return true;
 }
 
-
-return true;
-
-}
+// bool mail_valido(const char *mail) {
+//     char charRegEx = "(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+";
+//     return regex_match(mail, charRegEx);
+// }
 
 
 bool fecha_valida(fecha fecha_nacimiento){
@@ -220,7 +263,7 @@ cout<<"Ingrese domicilio del cliente"<<endl;
     cout<<"MES :"<<endl;
     cin >> p->fecha_nacimiento.mes;
      cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.mes<<endl;
-    cout<<"AÑO :"<<endl;
+    cout<<"ANIO :"<<endl;
     cin >> p->fecha_nacimiento.anio;
      cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.anio<<endl;
          cin.ignore();
@@ -233,7 +276,7 @@ cout<<"Ingrese domicilio del cliente"<<endl;
         cin >> p->fecha_nacimiento.dia;
         cout<<"MES :"<<endl;
         cin >> p->fecha_nacimiento.mes;
-        cout<<"AÑO :"<<endl;
+        cout<<"ANIO :"<<endl;
         cin >> p->fecha_nacimiento.anio;
             cin.ignore();
             cout<<endl;
