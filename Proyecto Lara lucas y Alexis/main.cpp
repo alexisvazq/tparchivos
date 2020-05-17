@@ -5,6 +5,7 @@ using namespace std;
 #include <cstdlib>
 #include <cmath>
 #include <ctime>
+#include <regex>
 #include "rlutil.h"
 using namespace rlutil;
 //#include "inc/funciones.h"
