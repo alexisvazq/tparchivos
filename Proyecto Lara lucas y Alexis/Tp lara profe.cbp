@@ -33,7 +33,6 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="clientes.h" />
-		<Unit filename="funciones.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="pedidos.h">
 			<Option target="&lt;{~None~}&gt;" />

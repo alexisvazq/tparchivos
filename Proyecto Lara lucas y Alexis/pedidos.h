@@ -4,7 +4,7 @@
 struct pedidos{
     int id;
     int idcliente, idplato,cant;
-    float preciouni, valoacion;
+    float preciouni, valoracion;
     fecha fecha_pedido;
     int estado;
 };
@@ -27,6 +27,8 @@ void eliminar_pedido();
 
 ///
 
+
+
 pedidos leer_pedidos(int pos){
     pedidos reg;
     FILE *p;
@@ -40,7 +42,7 @@ pedidos leer_pedidos(int pos){
 int contar_pedidos(){
     int bytes;
     FILE *p;
-    p = fopen(PATH_pedidos, "rb");
+    p = fopen(PATH_PEDIDOS, "rb");
     if (p == NULL){
         return 0;
     }
@@ -54,7 +56,7 @@ int buscar_pedidos(int codigoBuscado){
     pedidos reg;
     int pos = 0;
     FILE *p;
-    p = fopen(PATH_pedidos, "rb");
+    p = fopen(PATH_PEDIDOS, "rb");
     if (p == NULL){
         return -2;
     }
@@ -73,13 +75,13 @@ bool guardar_pedidos(pedidos reg, int pos){
     bool estado;
     FILE *p;
     if (pos >= 0){
-        p = fopen(PATH_pedidos, "rb+");
+        p = fopen(PATH_PEDIDOS, "rb+");
         if (p == NULL){
             return false;
         }
         fseek(p, pos * sizeof(pedidos), SEEK_SET);
     }else{
-        p = fopen(PATH_pedidos, "ab");
+        p = fopen(PATH_PEDIDOS, "ab");
         if (p == NULL){
             return false;
         }
@@ -96,114 +98,97 @@ bool cargar_pedidos(pedidos *p, int codigo = 0){
         cout << codigo<<endl;
     }else{
             p-> id = contar_pedidos() + 1;
-            cout<<"ID DEL pedido(PUESTO AUTOMATICAMENTE): "<<p->id<<endl;
+            cout<<"ID DEL PEDIDO(PUESTO AUTOMATICAMENTE): "<<p->id<<endl;
 
     }
-    cout<<"Ingrese el nombre del pedido"<<endl;
-    cout<<"NOMBRES: ";
+
+    cout<<"Ingrese el ID del cliente"<<endl;
+    cout<<"ID DEL CLIENTE: ";
+    cin >> p->idcliente;
+  if (buscar_clientes(p->idcliente)== -1){
+   return false;
+  }
     cin.ignore();
-    cin.getline(p->nombre, 50);
+        cout<<endl;
 
-    cout<<endl;
-    while(p->nombre[0] == '\0'){
-        cout<<"Este campo no puede quedar vacio, indique el nombre del pedido"<<endl;
+    cout<<"Ingrese el ID del plato"<<endl;
+    cout<<"ID DEL PLATO: ";
+    cin >> p->idplato;
+  if (buscar_platos(p->idplato)== -1){
+   return false;
+  }
+    cin.ignore();
         cout<<endl;
-        cout<<"NOMBRE: ";
-        cin.getline(p->nombre, 30);
-        cout<<endl;
-    }
 
-cout<<"Ingrese el/los apellido/s del pedido"<<endl;
-    cout<<"APELLIDOS: ";
-    cin.getline(p->apellidos, 50);
-    cout<<endl;
-    while(p->apellidos[0] == '\0'){
-        cout<<"Este campo no puede quedar vacio, indique el apellido del pedido"<<endl;
-        cout<<endl;
-        cout<<"APELLIDOS: ";
-        cin.getline(p->apellidos, 50);
-        cout<<endl;
-    }
-
-cout <<"Ingrese el mail del pedido"<<endl;
-    cout<<"MAIL: ";
-        cin.getline(p->mail, 50);
-        while((p->mail[0] == '\0') || (mail_valido(p->mail) == false)) {
-            cout<<"El mail ingresado no es valido, ingrese nuevamente el mail"<<endl;
-            cout<<"MAIL: ";
-             cin.getline(p->mail,50);
-            }
-
-cout<<"Ingrese domicilio del pedido"<<endl;
-        cout<<"DOMICILIO: ";
-    cin.getline(p->domicilio, 100);
-    cout<<endl;
-    while(p->domicilio[0] == '\0'){
-        cout<<"Este campo no puede quedar vacio, indique el domicilio del pedido"<<endl;
-        cout<<endl;
-        cout<<"DOMICILIO: ";
-        cin.getline(p->domicilio, 100);
-        cout<<endl;
-    }
-
-    cout<<"Ingrese el codigo postal del pedido"<<endl;
-    cout<<"CODIGO POSTAL: ";
-    cin >> p->cp;
+   cout<<"Ingrese la cantidad de platos"<<endl;
+    cout<<"CANTIDAD: ";
+    cin >> p->cant;
     cin.ignore();
     cout<<endl;
-    while(cin.fail() || p->cp < 1000 || p->cp > 9999){
+    while(cin.fail() || p->cant < 1){
         if(cin.fail()){
-            cout<<"El codigo postal del pedido no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cout<<"La cantidad de platos no contiene un formato valido (solo numeros). Intente con otro"<<endl;
             cin.clear();
             cin.ignore(256,'\n');
             cout<<endl;
-            cout<<"CODIGO POSTAL: ";
-            cin >> p->cp;
+            cout<<"CANTIDAD: ";
+            cin >> p->cant;
             cin.ignore();
             cout<<endl;
         }else{
-            cout<<"El codigo postal del pedido debe ser mayor a 1000 y menor a 9999. Intente nuevamente"<<endl;
+            cout<<"La cantidad de platos no puede ser negativo ni 0. Ingrese la cantidad de platos"<<endl;
             cout<<endl;
-            cout<<"CODIGO POSTAL: ";
-            cin >> p->cp;
+            cout<<"CANTIDAD: ";
+            cin >> p->cant;
+            cin.ignore();
+            cout<<endl;
+        }
+    }
+int pos;
+platos reg;
+     pos = buscar_platos(p->idplato);
+        if (pos >= 0){
+            reg = leer_platos(pos);
+           p->preciouni=reg.valorventa;
+        }
+ time_t t;
+ t=time(NULL);
+ struct tm *f;
+ f = localtime(&t);
+ p->fecha_pedido.anio = f->tm_year+1900;
+ p->fecha_pedido.mes = f->tm_mon+1;
+ p->fecha_pedido.dia = f->tm_mday;
+
+   cout<<"Ingrese una valoracion"<<endl;
+    cout<<"VALORACION: ";
+    cin >> p->valoracion;
+    cin.ignore();
+    cout<<endl;
+    while(cin.fail() || p->valoracion < 0 || p->valoracion > 10){
+        if(cin.fail()){
+            cout<<"La valoracion no contiene un formato valido (solo numeros). Intente con otro"<<endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<endl;
+            cout<<"Valoracion: ";
+            cin >> p->valoracion;
+            cin.ignore();
+            cout<<endl;
+        }else{
+            cout<<"La valoracion debe ser 0 a 10. Intente nuevamente"<<endl;
+            cout<<endl;
+            cout<<"Valoracion: ";
+            cin >> p->valoracion;
             cin.ignore();
             cout<<endl;
         }
     }
 
-    cout<<"Ingrese la fecha de nacimiento del pedido"<<endl;
-    cout<<"FECHA DE NACIMIENTO: "<<endl;
-    cout<<"DIA :"<<endl;
-    cin >> p->fecha_nacimiento.dia;
-    cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.dia<<endl;
-    cout<<"MES :"<<endl;
-    cin >> p->fecha_nacimiento.mes;
-     cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.mes<<endl;
-    cout<<"AÑO :"<<endl;
-    cin >> p->fecha_nacimiento.anio;
-     cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.anio<<endl;
-         cin.ignore();
-
-
-    while(fecha_valida(p->fecha_nacimiento) == false) {
-        cout<<"FECHA DE NACIMIENTO INCORRECTA, VUELVA A INTENTARLO: "<<endl;
-        cout<<"FECHA DE NACIMIENTO: ";
-        cout<<"DIA :"<<endl;
-        cin >> p->fecha_nacimiento.dia;
-        cout<<"MES :"<<endl;
-        cin >> p->fecha_nacimiento.mes;
-        cout<<"AÑO :"<<endl;
-        cin >> p->fecha_nacimiento.anio;
-            cin.ignore();
-            cout<<endl;
-
-        }
-
-
-    p->estado = true;
+    p->estado = 1;
 
     return true;
 }
+
 
 void listar_todos_pedidos(){
     pedidos reg;
@@ -268,12 +253,16 @@ void editar_pedidos(){
         pos = buscar_pedidos(codigoBuscado);
         if (pos >= 0){
             reg = leer_pedidos(pos);
-            listar_pedidos(reg);
-
             cout<<endl;
-            cout<<"Ingrese el nuevo domicilio del pedido"<<endl;
-            cout<<"DOMICILIO: ";
-            cin >> reg.domicilio;
+            cout<<"Ingrese el nuevo estado del pedido"<<endl;
+            cout<<"ESTADO: ";
+            cin >> reg.estado;
+            if(reg.estado!=1 && reg.estado!=2 && reg.estado!=3 )
+            {
+                cout<<"El estado ingresado es incorrecto"<<endl;
+                anykey();
+
+            }
             cin.ignore();
             cout<<endl;
 
@@ -287,9 +276,11 @@ void editar_pedidos(){
             anykey();
         }else{
             cout<<"El pedido buscado no existe."<<endl;
+                  anykey();
         }
     }
 }
+
 
 
 void listar_pedidos_x_id(){
@@ -327,24 +318,33 @@ void listar_pedidos(pedidos reg){
 
     cout<<"El ID del pedido es: "<< reg.id<<endl;
 
-    cout<<"Nombre completo del pedido: " <<reg.nombre<<" "<<reg.apellidos<<endl;
+    cout<<"El ID del cliente es: " <<reg.idcliente<<endl;
 
-    cout<<"Mail del pedido: " << reg.mail<<endl;
+    cout<<"ID del plato: " << reg.idplato<<endl;
 
-    cout<<"Domicilio: "  <<reg.domicilio<<endl;
+    cout<<"Cantidad: "  <<reg.cant<<endl;
 
-    cout<<"Codigo Postal: " << reg.cp<<endl;
+    cout<<"Precio unitario: " << reg.preciouni<<endl;
 
-    cout<<"Fecha de nacimiento: "<<reg.fecha_nacimiento.dia<<'/'<<reg.fecha_nacimiento.mes<<'/'<<reg.fecha_nacimiento.anio<<endl;
+    cout<<"Fecha del pedido: "<<reg.fecha_pedido.dia<<'/'<<reg.fecha_pedido.mes<<'/'<<reg.fecha_pedido.anio<<endl;
 
+   cout<<"Valoracion: "<<reg.valoracion<<endl;
 
     cout<<"Estado del pedido: ";
-    if( reg.estado ){
-        cout<<"activo"<<endl;
-    }else{
-        cout<<"inactivo"<<endl;
+
+    switch (reg.estado){
+    case 3:
+        cout<<"Pedido Cancelado"<<endl;
+    break;
+    case 1:
+        cout<<"Pedido En Curso"<<endl;
+    break;
+    case 2:
+        cout<<"Pedido Completado"<<endl;
+    break;
     }
-}
+
+ }
 
 void nuevo_pedidos(){
     pedidos reg;

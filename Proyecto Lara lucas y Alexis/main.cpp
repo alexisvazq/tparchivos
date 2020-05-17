@@ -5,14 +5,15 @@ using namespace std;
 #include <cstdlib>
 #include <cmath>
 #include <ctime>
-#include <regex>
 #include "rlutil.h"
 using namespace rlutil;
 //#include "inc/funciones.h"
 #include "producto.h"
 #include "clientes.h"
+#include "pedidos.h"
 
 int main(){
+
     int opt;
     while(true){
         system("cls");
@@ -116,6 +117,42 @@ int main(){
 
             case 3:
 
+                  int opt4;
+                while(true){
+                    system("cls");
+                    cout<<"-------MENU PEDIDOS-----------"<<endl;
+                    cout<<"-------------------------------"<<endl;
+                    cout<<"     1) NUEVO PEDIDO"<<endl;
+                    cout<<"     2) MODIFICAR PEDIDO"<<endl;
+                    cout<<"     3) LISTAR PEDIDO POR ID"<<endl;
+                    cout<<"     4) LISTAR TODOS LOS PEDIDOS"<<endl;
+                    cout<<"     0) VOLVER AL MENU PRINCIPAL"<<endl;
+                    cout<<"-----SELECCIONE UNA OPCION-----"<<endl;
+                    cin>>opt4;
+                    system("cls");
+
+                    switch(opt4){
+                        case 1:
+                            nuevo_pedidos();
+                        break;
+                        case 2:
+                            editar_pedidos();
+                        break;
+                        case 3:
+                            listar_pedidos_x_id();
+                        break;
+                        case 4:
+                            listar_todos_pedidos();
+                        break;
+                        case 0:
+                            return 0 ;
+                            break;
+                    }
+                     };
+
+
+
+
             break;
             case 4:
 
@@ -127,5 +164,6 @@ int main(){
 
     }
     return 0;
+
 }
 
