@@ -33,7 +33,7 @@ int main(){
             case 1:
                 //nuevo_platos();
                 int opt2;
-                while(true){
+                while(opt2!=0){
                     system("cls");
                     cout<<"-------MENU PLATOS-----------"<<endl;
                     cout<<"-----------------------------"<<endl;
@@ -68,7 +68,7 @@ int main(){
                             eliminar_plato();
                         break;
                         case 0:
-                            return 0;
+                          //  return 0;
                         break;
                     }
 
@@ -76,7 +76,7 @@ int main(){
                 break;
             case 2:
                      int opt3;
-                while(true){
+                while(opt3!=0){
                     system("cls");
                     cout<<"-------MENU CLIENTES-----------"<<endl;
                     cout<<"-------------------------------"<<endl;
@@ -108,7 +108,7 @@ int main(){
                         break;
 
                         case 0:
-                            return 0;
+                     //       return 0;
                             break;
                     }
                      };
@@ -118,7 +118,7 @@ int main(){
             case 3:
 
                   int opt4;
-                while(true){
+                while(opt4!=0){
                     system("cls");
                     cout<<"-------MENU PEDIDOS-----------"<<endl;
                     cout<<"-------------------------------"<<endl;
@@ -145,7 +145,7 @@ int main(){
                             listar_todos_pedidos();
                         break;
                         case 0:
-                            return 0 ;
+                       //     return 0 ;
                             break;
                     }
                      };
@@ -155,6 +155,35 @@ int main(){
 
             break;
             case 4:
+
+            break;
+            case 5:
+
+                       int opt5;
+                while(opt5!=0){
+                    system("cls");
+                    cout<<"-------MENU CONFIGURACION-----------"<<endl;
+                    cout<<"------------------------------------"<<endl;
+                    cout<<"     1) REALIZAR COPIA DE SEGURIDAD"<<endl;
+                    cout<<"     2) RESTAURAR COPIA DE SEGURIDAD"<<endl;
+                    cout<<"     0) VOLVER AL MENU PRINCIPAL"<<endl;
+                    cout<<"-----SELECCIONE UNA OPCION-----"<<endl;
+                    cin>>opt5;
+                    system("cls");
+
+                    switch(opt5){
+                        case 1:
+                            nuevo_pedidos();
+                        break;
+                        case 2:
+                            editar_pedidos();
+                        break;
+                        case 0:
+                      //      return 0 ;
+                            break;
+                    }
+                     };
+
 
             break;
             case 0:
