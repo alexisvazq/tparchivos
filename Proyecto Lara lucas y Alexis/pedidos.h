@@ -197,6 +197,7 @@ void listar_todos_pedidos(){
 
     for(i=0; i<cant; i++){
         reg = leer_pedidos(i);
+
         listar_pedidos(reg);
         cout<<endl<<"Presiona una tecla para avanzar de registro o finalizar."<<endl<<endl;
         anykey();

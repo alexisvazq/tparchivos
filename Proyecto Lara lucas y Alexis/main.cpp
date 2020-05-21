@@ -7,10 +7,10 @@ using namespace std;
 #include <ctime>
 #include "rlutil.h"
 using namespace rlutil;
-//#include "inc/funciones.h"
 #include "producto.h"
 #include "clientes.h"
 #include "pedidos.h"
+#include "configuracion.h"
 
 int main(){
 
@@ -173,10 +173,10 @@ int main(){
 
                     switch(opt5){
                         case 1:
-                            nuevo_pedidos();
+                            copia_seguridad();
                         break;
                         case 2:
-                            editar_pedidos();
+                            restaurar_seguridad();
                         break;
                         case 0:
                       //      return 0 ;
