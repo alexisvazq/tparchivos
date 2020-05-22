@@ -329,48 +329,52 @@ void listar_clientes(clientes reg){
 }
 
 
-void ordenar_clientes(clientes *vec,int tam){
+void ordenar_clientes(clientes *reg,int tam){
 int i,j,pos;
 clientes aux;
 for(i=0; i<tam-1; i++){
         pos=i;
 
     for(j= i+1; j<tam; j++){
-    if(strcmp(vec[j].apellidos,vec[pos].apellidos<0)){
+    if(strcmp(reg[j].apellidos,reg[pos].apellidos)<0){
      pos=j;
             }
         }
-   aux=vec[i];
-   vec[i] = vec[pos];
-   vec[pos]=aux;
+   aux=reg[i];
+   reg[i] = reg[pos];
+   reg[pos]=aux;
     }
 
 }
 
 void listar_todos_clientes(){
-    clientes reg, *vec;
-
+   struct clientes *reg;
     int i=0, cant;
     cant = contar_clientes();
-        vec=((clientes *) malloc(cant*sizeof(clientes)));
+        reg=(clientes *) malloc(cant*sizeof(clientes));
+           if(reg==NULL){
+            cout<<"La memoria es insuficiente"<<endl;
+            anykey();
+            return;
+           }
         FILE *p;
         p=fopen(PATH_CLIENTES,"rb");
         if(p==NULL){
-        free(vec);
+        free(reg);
         cout<<"No existe el archivo";
+        anykey();
         return;
         }
-        fread(&vec[0],sizeof(clientes),cant,p);
+        fread(&reg[0],sizeof(clientes),cant,p);
         fclose(p);
-
-        ordenar_clientes(vec, cant);
+        ordenar_clientes(reg, cant);
+        cout<<endl<<"CLIENTES MOSTRADOS ORDENADOS POR APELLIDO"<<endl<<endl;
     for(i=0; i<cant; i++){
-      //  reg = leer_clientes(i);
-          listar_clientes(vec[i]);
+          listar_clientes(reg[i]);
         cout<<endl<<"Presiona una tecla para avanzar de registro o finalizar."<<endl<<endl;
         anykey();
     }
-              free(vec);
+              free(reg);
 }
 
 
