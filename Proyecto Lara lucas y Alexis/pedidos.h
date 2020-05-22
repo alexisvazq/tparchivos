@@ -71,6 +71,25 @@ int buscar_pedidos(int codigoBuscado){
     return -1;
 }
 
+bool fecha_valida_de_pedido(fecha fecha_pedido){
+
+   if((fecha_pedido.anio % 4 == 0 && fecha_pedido.anio % 100 != 0) || fecha_pedido.anio % 400 == 0){
+        dias_mes[1] = dias_mes[1] + 1;
+   }
+    if(fecha_pedido.mes < 1 || fecha_pedido.mes > 12){
+        return false;
+    }
+    int m = fecha_pedido.mes-1;
+    if(fecha_pedido.dia < 1 || fecha_pedido.dia > dias_mes[m]){
+        return false;
+    }
+    if(1900>fecha_pedido.anio||fecha_pedido.anio>2020){
+        return false;
+    }
+    return true;
+}
+
+
 bool guardar_pedidos(pedidos reg, int pos){
     bool estado;
     FILE *p;
@@ -151,13 +170,43 @@ platos reg;
             reg = leer_platos(pos);
            p->preciouni=reg.valorventa;
         }
- time_t t;
+ /*time_t t;
  t=time(NULL);
  struct tm *f;
  f = localtime(&t);
  p->fecha_pedido.anio = f->tm_year+1900;
  p->fecha_pedido.mes = f->tm_mon+1;
  p->fecha_pedido.dia = f->tm_mday;
+*/
+
+   cout<<"Ingrese la fecha del pedido"<<endl;
+    cout<<"FECHA DEL PEDIDO: "<<endl;
+    cout<<"DIA :"<<endl;
+    cin >> p->fecha_pedido.dia;
+
+    cout<<"MES :"<<endl;
+    cin >> p->fecha_pedido.mes;
+
+    cout<<"ANIO :"<<endl;
+    cin >> p->fecha_pedido.anio;
+
+         cin.ignore();
+
+
+    while(fecha_valida_de_pedido(p->fecha_pedido) == false) {
+        cout<<"FECHA DEL PEDIDO INCORRECTA, VUELVA A INTENTARLO: "<<endl;
+        cout<<"FECHA DEL PEDIDO: ";
+        cout<<"DIA :"<<endl;
+        cin >> p->fecha_pedido.dia;
+        cout<<"MES :"<<endl;
+        cin >> p->fecha_pedido.mes;
+        cout<<"ANIO :"<<endl;
+        cin >> p->fecha_pedido.anio;
+            cin.ignore();
+            cout<<endl;
+
+        }
+
 
    cout<<"Ingrese una valoracion"<<endl;
     cout<<"VALORACION: ";
