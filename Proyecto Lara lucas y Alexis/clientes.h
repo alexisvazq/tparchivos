@@ -24,7 +24,7 @@ bool guardar_clientes(clientes, int);
 clientes leer_clientes(int);
 void listar_clientes(clientes);
 void listar_todos_clientes(clientes);
-int contar_clientes();
+int contar_clientes(const char *);
 int buscar_clientes(int);
 void listar_clientes_x_id();
 void eliminar_cliente();
@@ -41,10 +41,10 @@ clientes leer_clientes(int pos){
     return reg;
 }
 
-int contar_clientes(){
+int contar_clientes(const char *pathClientes){
     int bytes;
     FILE *p;
-    p = fopen(PATH_CLIENTES, "rb");
+    p = fopen(pathClientes, "rb");
     if (p == NULL){
         return 0;
     }
@@ -194,7 +194,7 @@ bool cargar_clientes(clientes *p, int codigo = 0){
     if (codigo != 0){
         cout << codigo<<endl;
     }else{
-            p-> id = contar_clientes() + 1;
+            p-> id = contar_clientes(PATH_CLIENTES) + 1;
             cout<<"ID DEL CLIENTE(PUESTO AUTOMATICAMENTE): "<<p->id<<endl;
 
     }
@@ -350,7 +350,7 @@ for(i=0; i<tam-1; i++){
 void listar_todos_clientes(){
    struct clientes *reg;
     int i=0, cant;
-    cant = contar_clientes();
+    cant = contar_clientes(PATH_CLIENTES);
         reg=(clientes *) malloc(cant*sizeof(clientes));
            if(reg==NULL){
             cout<<"La memoria es insuficiente"<<endl;

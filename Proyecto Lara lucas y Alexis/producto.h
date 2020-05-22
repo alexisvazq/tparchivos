@@ -17,7 +17,7 @@ bool guardar_platos(platos, int);
 platos leer_platos(int);
 void listar_platos(platos);
 void listar_todos_platos(platos);
-int contar_platos();
+int contar_platos(const char *);
 int buscar_platos(int);
 
 
@@ -32,10 +32,10 @@ platos leer_platos(int pos){
     return reg;
 }
 
-int contar_platos(){
+int contar_platos(const char *pathPlatos){
     int bytes;
     FILE *p;
-    p = fopen(PATH_PLATOS, "rb");
+    p = fopen(pathPlatos, "rb");
     if (p == NULL){
         return 0;
     }
@@ -313,7 +313,7 @@ void listar_platos(platos reg){
 void listar_todos_platos(){
     platos reg;
     int i=0, cant;
-    cant = contar_platos();
+    cant = contar_platos(PATH_PLATOS);
 
     for(i=0; i<cant; i++){
         reg = leer_platos(i);
@@ -485,7 +485,7 @@ void listar_platos_x_idresto(){
         cout<<"Platos del restaurante con el ID "<<codigoBuscado<<":"<<endl;
 
         int i=0, cant;
-        cant = contar_platos();
+        cant = contar_platos(PATH_PLATOS);
         for(i=0; i<cant; i++){
 
             reg = leer_platos(i);

@@ -19,7 +19,7 @@ bool guardar_pedidos(pedidos, int);
 pedidos leer_pedidos(int);
 void listar_pedidos(pedidos);
 void listar_todos_pedidos(pedidos);
-int contar_pedidos();
+int contar_pedidos(const char *);
 int buscar_pedidos(int);
 void listar_pedidos_x_id();
 void eliminar_pedido();
@@ -39,10 +39,10 @@ pedidos leer_pedidos(int pos){
     return reg;
 }
 
-int contar_pedidos(){
+int contar_pedidos(const char *pathPedidos){
     int bytes;
     FILE *p;
-    p = fopen(PATH_PEDIDOS, "rb");
+    p = fopen(pathPedidos, "rb");
     if (p == NULL){
         return 0;
     }
@@ -116,7 +116,7 @@ bool cargar_pedidos(pedidos *p, int codigo = 0){
     if (codigo != 0){
         cout << codigo<<endl;
     }else{
-            p-> id = contar_pedidos() + 1;
+            p-> id = contar_pedidos(PATH_PEDIDOS) + 1;
             cout<<"ID DEL PEDIDO(PUESTO AUTOMATICAMENTE): "<<p->id<<endl;
 
     }
@@ -242,7 +242,7 @@ platos reg;
 void listar_todos_pedidos(){
     pedidos reg;
     int i=0, cant;
-    cant = contar_pedidos();
+    cant = contar_pedidos(PATH_PEDIDOS);
 
     for(i=0; i<cant; i++){
         reg = leer_pedidos(i);

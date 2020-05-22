@@ -14,8 +14,12 @@ using namespace rlutil;
 
 int main(){
 
-    int opt;
-    while(true){
+    int opt = 1;
+    while(opt!=0){
+        int opt2 = 1;
+        int opt3 = 1;
+        int opt4 = 1;
+        int opt5 = 1;
         system("cls");
         cout<<"-------MENU PRINCIPAL--------"<<endl;
         cout<<"-----------------------------"<<endl;
@@ -27,12 +31,11 @@ int main(){
         cout<<"     0)  SALIR"<<endl;
         cout<<"---SELECCIONE UNA OPCION----"<<endl;
         cin>>opt;
+        cin.ignore();
         system("cls");
 
         switch(opt){
             case 1:
-                //nuevo_platos();
-                int opt2;
                 while(opt2!=0){
                     system("cls");
                     cout<<"-------MENU PLATOS-----------"<<endl;
@@ -68,14 +71,14 @@ int main(){
                             eliminar_plato();
                         break;
                         case 0:
-                          //  return 0;
+                            opt2=0;
                         break;
                     }
 
                 };
                 break;
+
             case 2:
-                     int opt3;
                 while(opt3!=0){
                     system("cls");
                     cout<<"-------MENU CLIENTES-----------"<<endl;
@@ -114,10 +117,7 @@ int main(){
                      };
                 break;
 
-
             case 3:
-
-                  int opt4;
                 while(opt4!=0){
                     system("cls");
                     cout<<"-------MENU PEDIDOS-----------"<<endl;
@@ -149,17 +149,12 @@ int main(){
                             break;
                     }
                      };
+                break;
 
-
-
-
-            break;
             case 4:
-
             break;
-            case 5:
 
-                       int opt5;
+            case 5:
                 while(opt5!=0){
                     system("cls");
                     cout<<"-------MENU CONFIGURACION-----------"<<endl;
@@ -183,16 +178,12 @@ int main(){
                             break;
                     }
                      };
+                break;
 
-
-            break;
             case 0:
                 return 0;
-            break;
-            }
-
+                break;
+        }
     }
     return 0;
-
 }
-
