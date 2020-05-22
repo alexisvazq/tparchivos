@@ -10,7 +10,7 @@ using namespace rlutil;
 #include "producto.h"
 #include "clientes.h"
 #include "pedidos.h"
-//#include "configuracion.h"
+#include "configuracion.h"
 
 int main(){
 
@@ -173,10 +173,10 @@ int main(){
 
                     switch(opt5){
                         case 1:
-                 //           copia_seguridad();
+                            copia_seguridad();
                         break;
                         case 2:
-                   //         restaurar_seguridad();
+                            restaurar_copia();
                         break;
                         case 0:
                       //      return 0 ;

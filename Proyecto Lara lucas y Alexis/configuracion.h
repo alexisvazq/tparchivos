@@ -5,16 +5,36 @@ bool doBackupPlatos();
 bool doBackupClientes();
 bool doBackupPedidos();
 
+bool doRestorePlatos();
+bool doRestoreClientes();
+bool doRestorePedidos();
+
 void copia_seguridad(){
   bool isBackupPlatos = doBackupPlatos();
   bool isBackupClientes = doBackupClientes();
   bool isBackupPedidos = doBackupPedidos();
 
 	if( isBackupPlatos && isBackupClientes && isBackupPedidos ){
-		cout<<"Backup exitoso!"<<endl;
+		cout<<"El backup fue exitoso!"<<endl;
 	}else{
 		cout<<"No se pudo crear el backup"<<endl;
 	}
+  anykey();
+}
+
+void restaurar_copia(){
+  bool isRestorePlatos = doRestorePlatos();
+  bool isRestoreClientes = doRestoreClientes();
+  bool isRestorePedidos = doRestorePedidos();
+
+  cout<<"PLATOS: "<<isRestorePlatos<<", CLIENTES: "<<isRestoreClientes<<", PEDIDOS: "<<isRestorePedidos<<endl;
+
+	if( isRestorePlatos && isRestoreClientes && isRestorePedidos ){
+		cout<<"El backup se ha restaurado exitosamente!"<<endl;
+	}else{
+		cout<<"No se pudo restaurar el backup"<<endl;
+	}
+  anykey();
 }
 
 bool doBackupPlatos(){
@@ -93,6 +113,84 @@ bool doBackupPedidos(){
 	free(pedidosB);
 
 	return isBackupDone;
+}
+
+bool doRestorePlatos(){
+
+	bool isRestoreDone;
+  int cantPlatos = contar_platos();
+
+  platos *platosB = (platos *) malloc(cantPlatos*sizeof(platos));
+  if(platosB==NULL){
+    cout<<"Error de asignación de memoria"<<endl;
+    return false;
+  }
+	
+  FILE *p;
+
+	p = fopen("datos/platos.bkp", "rb");
+	int platosLeidos = fread(&platosB[0], sizeof(platos), cantPlatos, p);
+	fclose(p);
+
+	p = fopen("datos/platos.dat", "wb");
+	int platosEscritos = isRestoreDone = fwrite(&platosB[0], sizeof(platos), cantPlatos, p);
+	fclose(p);
+
+	free(platosB);
+
+	return isRestoreDone;
+}
+
+bool doRestoreClientes(){
+
+	bool isRestoreDone;
+  int cantClientes = contar_clientes();
+
+  clientes *clientesB = (clientes *) malloc(cantClientes*sizeof(clientes));
+  if(clientesB==NULL){
+    cout<<"Error de asignación de memoria"<<endl;
+    return false;
+  }
+	
+  FILE *p;
+
+	p = fopen("datos/clientes.bkp", "rb");
+	int clientesLeidos = fread(&clientesB[0], sizeof(clientes), cantClientes, p);
+	fclose(p);
+
+	p = fopen("datos/clientes.dat", "wb");
+	int clientesEscritos = isRestoreDone = fwrite(&clientesB[0], sizeof(clientes), cantClientes, p);
+	fclose(p);
+
+	free(clientesB);
+
+	return isRestoreDone;
+}
+
+bool doRestorePedidos(){
+
+	bool isRestoreDone;
+  int cantPedidos = contar_pedidos();
+
+  pedidos *pedidosB = (pedidos *) malloc(cantPedidos*sizeof(pedidos));
+  if(pedidosB==NULL){
+    cout<<"Error de asignación de memoria"<<endl;
+    return false;
+  }
+	
+  FILE *p;
+
+	p = fopen("datos/pedidos.bkp", "rb");
+	int pedidosLeidos = fread(&pedidosB[0], sizeof(pedidos), cantPedidos, p);
+	fclose(p);
+
+	p = fopen("datos/pedidos.dat", "wb");
+	int pedidosEscritos = isRestoreDone = fwrite(&pedidosB[0], sizeof(pedidos), cantPedidos, p);
+	fclose(p);
+
+	free(pedidosB);
+
+	return isRestoreDone;
 }
 
 /*void restaurar_seguridad(platos *regplatos,clientes *regclientes,pedidos *regpedidos)
