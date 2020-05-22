@@ -274,13 +274,13 @@ cout<<"Ingrese domicilio del cliente"<<endl;
     cout<<"FECHA DE NACIMIENTO: "<<endl;
     cout<<"DIA :"<<endl;
     cin >> p->fecha_nacimiento.dia;
-    cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.dia<<endl;
+
     cout<<"MES :"<<endl;
     cin >> p->fecha_nacimiento.mes;
-     cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.mes<<endl;
+
     cout<<"ANIO :"<<endl;
     cin >> p->fecha_nacimiento.anio;
-     cout<<"EL DIA Q PUSIMOOS ES: "<<p->fecha_nacimiento.anio<<endl;
+
          cin.ignore();
 
 
@@ -328,18 +328,51 @@ void listar_clientes(clientes reg){
     }
 }
 
+
+void ordenar_clientes(clientes *vec,int tam){
+int i,j,pos;
+clientes aux;
+for(i=0; i<tam-1; i++){
+        pos=i;
+
+    for(j= i+1; j<tam; j++){
+    if(strcmp(vec[j].apellidos,vec[pos].apellidos<0)){
+     pos=j;
+            }
+        }
+   aux=vec[i];
+   vec[i] = vec[pos];
+   vec[pos]=aux;
+    }
+
+}
+
 void listar_todos_clientes(){
-    clientes reg;
+    clientes reg, *vec;
+
     int i=0, cant;
     cant = contar_clientes();
+        vec=((clientes *) malloc(cant*sizeof(clientes)));
+        FILE *p;
+        p=fopen(PATH_CLIENTES,"rb");
+        if(p==NULL){
+        free(vec);
+        cout<<"No existe el archivo";
+        return;
+        }
+        fread(&vec[0],sizeof(clientes),cant,p);
+        fclose(p);
 
+        ordenar_clientes(vec, cant);
     for(i=0; i<cant; i++){
-        reg = leer_clientes(i);
-        listar_clientes(reg);
+      //  reg = leer_clientes(i);
+          listar_clientes(vec[i]);
         cout<<endl<<"Presiona una tecla para avanzar de registro o finalizar."<<endl<<endl;
         anykey();
     }
+              free(vec);
 }
+
 
 void eliminar_cliente(){
     int codigoBuscado, pos;
