@@ -102,6 +102,8 @@ bool mail_valido(const char *mail) {
     //No puede comenzar ni terminar con arroba o punto
     if (mail[0] == '@' || mail [0] == '.' || mail[tam-1] == '@' || mail[tam-1] == '.') {
         return false ;
+        cout<<"1"<<endl;
+        anykey();
     }
 
     char * posPrimerArroba = strchr(mail,'@');
@@ -109,41 +111,54 @@ bool mail_valido(const char *mail) {
     // Debe contener un arroba
     if(posPrimerArroba == NULL) {
         return false;
+        cout<<"2"<<endl;
+        anykey();
     }
     // No puede contener mas de un arroba
     if(posPrimerArroba != posUltimoArroba){
         return false;
+        cout<<"3"<<endl;
+        anykey();
     }
 
-    for (int i = 0; i < tam; i++){
-        bool puntoSeguido = false;
+            bool puntoSeguido = false;
         bool charTrasArroba = false;
+
+    for (int i = 0; i < tam; i++){
+
 
         // Me fijo si es alfanumerico o punto o guion
         if( !isalnum(mail[i]) && mail[i] != '.' && mail[i] != '-' && mail[i] != '@' ){
             return false;
+
         }
         // Debe contener al menos un punto luego del arroba
         if( mail[i] == '@' ){
             charTrasArroba = true;
+
         }
         if( charTrasArroba && mail[i] == '.' ){
             puntoTrasArroba = true;
+
         }
         // No puede contener dos puntos seguidos
         if( mail[i] == '.' ){
             if( puntoSeguido ){
                 return false;
+
             }else{
                 puntoSeguido = true;
+
             }
         }else{
             puntoSeguido = false;
+
         }
     }
 
     if(!puntoTrasArroba){
         return false;
+
     }
 
     return true;
